@@ -1,0 +1,3 @@
+Abhishek kumar  salary is 500
+Sujal Choudhary  salary is 400
+Sonu kumar  salary is 300
