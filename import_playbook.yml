@@ -1,0 +1,2 @@
+- import_playbook: files_folder.yml
+- import_playbook: compress.yml

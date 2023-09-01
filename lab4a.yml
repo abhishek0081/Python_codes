@@ -1,0 +1,19 @@
+---
+- name: Display variables
+  hosts: 
+    - lab1
+    - localhost
+  gather_facts: false
+  vars_files: ./vars/lab4a_vars.yml
+  tasks:
+    - debug:
+        msg:
+          - "My nameis \'{{ name }}\' "
+          - "I live in {{ city }}"
+
+    - name: Copy the lines to the file
+      ansible.builtin.copy:
+        content:
+          - "My name is \'{{ name }}\'"
+          -  "I live in {{ city }}"
+        dest: ./check.txt

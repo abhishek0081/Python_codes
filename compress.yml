@@ -1,0 +1,10 @@
+---
+- name: Let's Do the below tasks
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Compress the file
+      archive:
+        path: /tmp/Abhishek_lab3/foo.txt
+        dest: ./result.tgz
+        remove: true

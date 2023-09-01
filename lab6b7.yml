@@ -1,0 +1,14 @@
+---
+- name: Display Hostname
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Find CentOS
+      ansible.builtin.template:
+        src: motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: '0664'
+      when: ansible_facts['distribution'] == 'CentOS' or ansible_distribution == "Red Hat Enterprise Linux" or ansible_os_family == "CentOS" or ansible_os_family == "RedHat"

@@ -1,0 +1,12 @@
+{% set start = 20 %}
+{% set end = 40 %}
+
+{% for i in range(start, end + 1) %}
+  {% if i % 2 == 0 %}
+      {{ i }} EVEN
+      {% else %}
+      {{ i }} ODD
+        {% endif %}
+        {% endfor %}
+
+

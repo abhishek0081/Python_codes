@@ -1,0 +1,19 @@
+---
+- name: Execute the following tasks
+  hosts: 
+    - localhost
+  gather_facts: false
+  tasks:
+    - name: Loop over 1-101
+      when: "{{ item % 2 == 0 }}"
+      # local_action: 
+      #   module: lineinfile
+      #   dest: ./abc.x
+      #   line: "{{ item }} -> EVEN"
+      #   state: present
+      #   create: yes
+      changed_when: false
+      ansible.builtin.debug:
+        msg: "{{ item  }}"
+      loop: "{{ range(1,11) | list }}"
+

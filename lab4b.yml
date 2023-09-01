@@ -1,0 +1,10 @@
+---
+- name: Display variables
+  hosts: lab1
+  gather_facts: false
+  vars_files: ./vars/lab4b_vars.yml
+  tasks:
+    - debug:
+        msg:
+          - "My nameis {{ subject }}"
+          - "I live in {{ college }}"

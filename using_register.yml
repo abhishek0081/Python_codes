@@ -1,0 +1,13 @@
+---
+- name: Using the register module 
+  hosts:
+    - lab1
+    - localhost
+  gather_facts: false
+  tasks:
+    - name: list contents of directory
+      command: "ls -ltr"
+      register: list_contents
+
+    - debug:
+        var:  list_contents.stdout_lines 

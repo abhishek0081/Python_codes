@@ -1,0 +1,24 @@
+---
+- name: Copy files from /tmp/lab9/foo.txt
+  hosts: 
+    - localhost
+    - lab1
+    - lab2
+  gather_facts: false
+  become: true
+  tasks:
+    - name: make the direvctory
+      ansible.builtin.file:
+        dest: /tmp/lab9
+        owner: root
+        group: root
+        state: directory
+
+    - name: Copy the files tot the destination
+      ansible.builtin.copy: 
+        src: /tmp/lab9/foo.txt
+        dest: /tmp/lab9
+        owner: student
+        group: student
+        mode: '0644'
+

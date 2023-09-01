@@ -1,0 +1,9 @@
+---
+- name: Find the even number in some range of number
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Executing tempalte
+      ansible.builtin.template:
+        src: templates/loop_practice.j2
+        dest: result.txt

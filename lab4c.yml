@@ -1,0 +1,10 @@
+---
+- name: Prompting user for input
+  hosts: lab2
+  vars_prompt:
+    - name: username
+      prompt: "What is your name ?"
+      private: no
+  tasks:
+    - debug:
+        msg: "Hi {{ username }} Brother Good morning"

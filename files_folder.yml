@@ -1,0 +1,16 @@
+---
+- name: Performing Lab two
+  hosts:
+    - lab1
+    - lab2
+    - localhost
+  tasks:
+    - name: Create directory
+      ansible.builtin.file:
+        path: /tmp/Abhishek_lab3
+        state: directory
+
+    - name: Create a directory under /tmp/Abhishek_lab3 and a file foo.txt
+      ansible.builtin.copy:
+        content: "Hi I am here  Wooho!!!"
+        dest: /tmp/Abhishek_lab3/foo.txt

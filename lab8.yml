@@ -1,0 +1,16 @@
+---
+- name: Working with vault files
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - name: Importing the encrypted file
+      command: cat mysecret.txt 
+      register: prnt
+      delegate_to: localhost
+
+    - name: printing contents
+      debug:
+        msg: 
+          - "{{ prnt.stdout }}"
+       

@@ -1,0 +1,7 @@
+---
+- name: Get facts
+  hosts: all
+  gather_facts: true
+  tasks: 
+    - debug: 
+        var: ansible_architecture

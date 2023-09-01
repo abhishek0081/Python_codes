@@ -1,0 +1,19 @@
+---
+- name: Show Input
+  hosts:
+    - lab1
+    - lab2
+  tasks:
+    - name: Find the output the the command and print it on terminal
+      command: "free -h"
+      register: cmd1
+
+    - name: Find  the ip address of the host
+      command: "ip a"
+      register: ipa
+
+    - debug:
+        msg: 
+          - "{{ cmd1.stdout }}"
+          - "Ip address of {{ ansible_host }} {{ ipa.stdout }} "
+
