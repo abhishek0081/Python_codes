@@ -1,7 +1,56 @@
+from __future__ import print_function
+# import base64
+import os.path
+import os
 import paramiko
 import logging
+import smtplib,email,ssl
+# from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+# from google.auth.transport.requests import Request
+# from google.oauth2.credentials import Credentials
+# from google_auth_oauthlib.flow import InstalledAppFlow
+from dotenv import load_dotenv
+load_dotenv()
+# SCOPES = ['https://mail.google.com/']
 
-logging.basicConfig(filename="target_Server_disk_utlization.log",format="%(asctime)s - %(levelname)s - %(message)s",filemode="w")
+
+
+logging.basicConfig(filename="target_Server_disk_utilization.log",format="%(asctime)s - %(levelname)s - %(message)s",filemode="w")
+
+# smtpObj = smtplib.SMTP('smtp.gmail.com',587) 
+# smtpObj.ehlo()
+# smtpObj.starttls()
+# smtpObj.login('rk.abhishek.ram@gmail.com',)
+import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+
+smtp_server = 'smtp.gmail.com'
+smtp_port = 587 # TLS port
+email_sender = "rk.abhishek.ram@gmail.com"
+email_password = os.environ.get("EMAIL_PASSWORD")
+email_recipient = "ramk4387@gmail.com"
+
+msg = MIMEMultipart()
+msg['From'] = email_sender
+msg['To'] = email_recipient
+msg['subject'] = "Log File for server disk utilization"
+
+body = """
+Please refer to the attached log file for more info.
+
+Regards,
+ABHISHEK KUMAR
+"""
+
+msg.attach(MIMEText(body, "plain"))
+
+
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -71,15 +120,35 @@ def get_disk_utilization(server_ip, username, password):
         ssh.close()
 
 
+def send_mail(recipient):
+    file_path = "./target_Server_disk_utilization.log"
+    with open(file_path, "rb") as attachment:
+        line = MIMEApplication(attachment.read(), Name=os.path.basename(file_path))
+        line['Content-Disposition'] = f'attachment; filename={os.path.basename(file_path)}'
+        msg.attach(line)
+
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    print(email_password)
+    server.login(email_sender, email_password)
+
+    server.sendmail(email_sender, recipient, msg.as_string())
+    print("Mail sent")
+    server.quit()
+
+
+
 if __name__ == "__main__":
     server_ip = "servera"
     username = "student"
     password = "student"
 
     disk_info = get_disk_utilization(server_ip, username, password)
-
+    send_mail(email_recipient)
     if disk_info:
         for item in disk_info:
             print(item)
     else:
         print("Unable to retrieve disk utilization.")
+    
+    
