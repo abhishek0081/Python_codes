@@ -1,6 +1,10 @@
 import paramiko
+import logging
 
+logging.basicConfig(filename="target_Server_disk_utlization.log",format="%(asctime)s - %(levelname)s - %(message)s",filemode="w")
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 def get_disk_utilization(server_ip, username, password):
     """Gets disk utilization information on the target server."""
     ssh = paramiko.SSHClient()
@@ -10,10 +14,14 @@ def get_disk_utilization(server_ip, username, password):
         ssh.connect(server_ip, username=username, password=password)
     except paramiko.AuthenticationException as auth_error:
         print(f"Authentication failed: {auth_error}")
+        logger.exception(f"Exception occured: {auth_error}")
         return None
     except paramiko.SSHException as ssh_error:
         print(f"SSH connection error: {ssh_error}")
+        logger.exception(f"Exception occured: {ssh_error}")
         return None
+    else:
+        logger.info("Successfully connected to the target server!!")
 
     try:
         # Run the 'df' command to get disk utilization
@@ -49,12 +57,17 @@ def get_disk_utilization(server_ip, username, password):
                 "Use%": use_percentage,
             })
 
-        return disk_utilization
+        
 
     except Exception as e:
         print(f"Error retrieving disk utilization: {e}")
+        logger.exception(f"Exception occured while finding disk utlilization : {e}")
         return None
+    else:
+        logger.info("Successfully accumulated all the disk utlization")
+        return disk_utilization
     finally:
+        logger.info("Closing ssh connection")
         ssh.close()
 
 
